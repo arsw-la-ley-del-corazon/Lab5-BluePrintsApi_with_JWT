@@ -1,14 +1,22 @@
-server:
-  port: 8080
+ spring:
+  profiles:
+    active: inmemory
 
+---
 spring:
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          jwk-set-uri: https://auth.example.com/.well-known/jwks.json
+  config:
+    activate:
+      on-profile: inmemory
   main:
     allow-bean-definition-overriding: true
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+
+server:
+  port: 8080
 
 blueprints:
   security:
