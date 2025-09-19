@@ -2,6 +2,10 @@ package co.edu.eci.blueprints.auth;
 
 import co.edu.eci.blueprints.security.InMemoryUserService;
 import co.edu.eci.blueprints.security.RsaKeyProperties;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +30,22 @@ public class AuthController {
     public record LoginRequest(String username, String password) {}
     public record TokenResponse(String access_token, String token_type, long expires_in) {}
 
+    
+    @Operation(
+        summary = "Iniciar sesión y obtener un token JWT",
+        description = "Autentica un usuario y devuelve un token JWT para acceder a los endpoints protegidos. " +
+                     "Usuarios disponibles: 'student' (solo lectura) y 'assistant' (lectura y escritura), ambos con password 'password'.",
+        responses = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Inicio de sesión exitoso",
+                content = @Content(schema = @Schema(implementation = TokenResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Credenciales inválidas",
+                content = @Content(schema = @Schema(implementation = Map.class)))
+        },
+        requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "Credenciales de usuario",
+            content = @Content(schema = @Schema(implementation = LoginRequest.class))
+        )
+    )
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest req) {
         if (!userService.isValid(req.username(), req.password())) {

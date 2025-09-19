@@ -1,0 +1,29 @@
+# Pruebas de validación de JWT
+
+## 1. Obtener un token válido
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+    "username": "student",
+    "password": "password"
+}
+
+## 2. Probar acceso con token válido
+GET http://localhost:8080/api/v1/blueprints
+Authorization: Bearer [REPLACE_WITH_VALID_TOKEN]
+
+## 3. Probar acceso sin token
+GET http://localhost:8080/api/v1/blueprints
+
+## 4. Probar acceso con token inválido
+GET http://localhost:8080/api/v1/blueprints
+Authorization: Bearer invalid_token_here
+
+## 5. Probar acceso con token expirado 
+# (esperar que expire el token actual y usar el mismo token)
+GET http://localhost:8080/api/v1/blueprints
+Authorization: Bearer [EXPIRED_TOKEN]
+
+## 6. Probar endpoint público (debería funcionar sin token)
+GET http://localhost:8080/actuator/health
