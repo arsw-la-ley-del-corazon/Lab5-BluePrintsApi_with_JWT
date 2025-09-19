@@ -31,7 +31,10 @@ public class AuthController {
     public record TokenResponse(String access_token, String token_type, long expires_in) {}
 
     
-    @Operation(summary = "Iniciar sesión y obtener un token JWT",
+    @Operation(
+        summary = "Iniciar sesión y obtener un token JWT",
+        description = "Autentica un usuario y devuelve un token JWT para acceder a los endpoints protegidos. " +
+                     "Usuarios disponibles: 'student' (solo lectura) y 'assistant' (lectura y escritura), ambos con password 'password'.",
         responses = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Inicio de sesión exitoso",
                 content = @Content(schema = @Schema(implementation = TokenResponse.class))),
@@ -39,6 +42,7 @@ public class AuthController {
                 content = @Content(schema = @Schema(implementation = Map.class)))
         },
         requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "Credenciales de usuario",
             content = @Content(schema = @Schema(implementation = LoginRequest.class))
         )
     )
@@ -50,7 +54,7 @@ public class AuthController {
 
         Instant now = Instant.now();
         long ttl = props.tokenTtlSeconds() != null ? props.tokenTtlSeconds() : 3600;
-        Instant exp = now.plusSeconds(60);
+        Instant exp = now.plusSeconds(ttl);
 
         /*String scope = "blueprints.read blueprints.write";*/
 

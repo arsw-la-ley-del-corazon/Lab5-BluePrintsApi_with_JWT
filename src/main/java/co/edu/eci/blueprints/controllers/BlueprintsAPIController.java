@@ -8,6 +8,7 @@ import co.edu.eci.blueprints.services.BlueprintsServices;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -37,9 +38,16 @@ public class BlueprintsAPIController {
     // GET /blueprints
     @GetMapping
     @PreAuthorize("hasAuthority('SCOPE_blueprints.read')")
-    @Operation(summary = "Listar todos los blueprints",
+    @Operation(
+        summary = "Listar todos los blueprints",
+        description = "Obtiene la lista completa de blueprints. Requiere permisos de lectura.",
+        security = @SecurityRequirement(name = "bearer-jwt"),
         responses = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Consulta exitosa",
+                content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "No autorizado - Token JWT requerido",
+                content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "Prohibido - Permisos insuficientes",
                 content = @Content(schema = @Schema(implementation = ApiResponse.class)))
         })
     /**
@@ -54,11 +62,18 @@ public class BlueprintsAPIController {
     // GET /blueprints/{author}
     @GetMapping("/{author}")
     @PreAuthorize("hasAuthority('SCOPE_blueprints.read')")
-    @Operation(summary = "Listar blueprints por autor",
+    @Operation(
+        summary = "Listar blueprints por autor",
+        description = "Obtiene todos los blueprints creados por un autor específico. Requiere permisos de lectura.",
+        security = @SecurityRequirement(name = "bearer-jwt"),
         responses = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Consulta exitosa",
                 content = @Content(schema = @Schema(implementation = ApiResponse.class))),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Autor sin blueprints",
+                content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "No autorizado - Token JWT requerido",
+                content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "Prohibido - Permisos insuficientes",
                 content = @Content(schema = @Schema(implementation = ApiResponse.class)))
         })
     /**
@@ -79,11 +94,18 @@ public class BlueprintsAPIController {
     // GET /blueprints/{author}/{bpname}
     @GetMapping("/{author}/{bpname}")
     @PreAuthorize("hasAuthority('SCOPE_blueprints.read')")
-    @Operation(summary = "Obtener blueprint por autor y nombre",
+    @Operation(
+        summary = "Obtener blueprint por autor y nombre",
+        description = "Obtiene un blueprint específico mediante su autor y nombre. Requiere permisos de lectura.",
+        security = @SecurityRequirement(name = "bearer-jwt"),
         responses = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Consulta exitosa",
                 content = @Content(schema = @Schema(implementation = ApiResponse.class))),
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "No encontrado",
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Blueprint no encontrado",
+                content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "No autorizado - Token JWT requerido",
+                content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "Prohibido - Permisos insuficientes",
                 content = @Content(schema = @Schema(implementation = ApiResponse.class)))
         })
     /**
@@ -105,11 +127,18 @@ public class BlueprintsAPIController {
     // POST /blueprints
     @PostMapping
     @PreAuthorize("hasAuthority('SCOPE_blueprints.write')")
-    @Operation(summary = "Crear un nuevo blueprint",
+    @Operation(
+        summary = "Crear un nuevo blueprint",
+        description = "Crea un nuevo blueprint en el sistema. Requiere permisos de escritura.",
+        security = @SecurityRequirement(name = "bearer-jwt"),
         responses = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "201", description = "Creado",
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "201", description = "Blueprint creado exitosamente",
                 content = @Content(schema = @Schema(implementation = ApiResponse.class))),
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Solicitud inválida",
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Solicitud inválida o blueprint ya existe",
+                content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "No autorizado - Token JWT requerido",
+                content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "Prohibido - Permisos de escritura requeridos",
                 content = @Content(schema = @Schema(implementation = ApiResponse.class)))
         })
     /**
@@ -132,11 +161,18 @@ public class BlueprintsAPIController {
     // PUT /blueprints/{author}/{bpname}/points
     @PutMapping("/{author}/{bpname}/points")
     @PreAuthorize("hasAuthority('SCOPE_blueprints.write')")
-    @Operation(summary = "Agregar un punto a un blueprint",
+    @Operation(
+        summary = "Agregar un punto a un blueprint",
+        description = "Agrega un nuevo punto a un blueprint existente. Requiere permisos de escritura.",
+        security = @SecurityRequirement(name = "bearer-jwt"),
         responses = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "202", description = "Aceptado",
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "202", description = "Punto agregado exitosamente",
                 content = @Content(schema = @Schema(implementation = ApiResponse.class))),
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "No encontrado",
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Blueprint no encontrado",
+                content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "No autorizado - Token JWT requerido",
+                content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "Prohibido - Permisos de escritura requeridos",
                 content = @Content(schema = @Schema(implementation = ApiResponse.class)))
         })
     /**
