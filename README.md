@@ -51,7 +51,22 @@
    3. Extender los scopes (`blueprints.read`, `blueprints.write`) para controlar otros endpoints de la API, del laboratorio P1 trabajado.
    
    4. Modificar el tiempo de expiración del token y observar el efecto.
+
+   **RTA**
    
+   En el codigo en el archivo `AuthController.java` se modifico la linea 37 de:
+   ```java
+       Instant exp = now.plusSeconds(60);
+   ```
+   a:
+   ```java
+       Instant exp = now.plusSeconds(ttl);
+   ```
+   Para poder comprobar como se comporta el sistema al expirar el token, no se validaba si el token expiraba, asi que se desarollo las debidas clases y metodos que permitieran validar el token en cada peticion, para esto se creo la clase `JwtValidationFilter.java` y se configuro en el archivo `SecurityConfig.java` para que se ejecutara antes de cada peticion.:
+   
+   ![Test Jwt Validations](/img/test-jwt-expired.png)
+
+
    5. Documentar en Swagger los endpoints de autenticación y de negocio.
 
 ---
