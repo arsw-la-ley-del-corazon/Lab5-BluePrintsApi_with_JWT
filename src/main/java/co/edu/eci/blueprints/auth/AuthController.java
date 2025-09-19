@@ -34,7 +34,7 @@ public class AuthController {
 
         Instant now = Instant.now();
         long ttl = props.tokenTtlSeconds() != null ? props.tokenTtlSeconds() : 3600;
-        Instant exp = now.plusSeconds(ttl);
+        Instant exp = now.plusSeconds(60);
 
         /*String scope = "blueprints.read blueprints.write";*/
 
