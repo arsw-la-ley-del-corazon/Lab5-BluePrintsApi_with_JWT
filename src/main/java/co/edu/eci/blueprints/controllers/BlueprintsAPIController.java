@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
@@ -35,6 +36,7 @@ public class BlueprintsAPIController {
 
     // GET /blueprints
     @GetMapping
+    @PreAuthorize("hasAuthority('SCOPE_blueprints.read')")
     @Operation(summary = "Listar todos los blueprints",
         responses = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Consulta exitosa",
@@ -51,6 +53,7 @@ public class BlueprintsAPIController {
 
     // GET /blueprints/{author}
     @GetMapping("/{author}")
+    @PreAuthorize("hasAuthority('SCOPE_blueprints.read')")
     @Operation(summary = "Listar blueprints por autor",
         responses = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Consulta exitosa",
@@ -75,6 +78,7 @@ public class BlueprintsAPIController {
 
     // GET /blueprints/{author}/{bpname}
     @GetMapping("/{author}/{bpname}")
+    @PreAuthorize("hasAuthority('SCOPE_blueprints.read')")
     @Operation(summary = "Obtener blueprint por autor y nombre",
         responses = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Consulta exitosa",
@@ -100,6 +104,7 @@ public class BlueprintsAPIController {
 
     // POST /blueprints
     @PostMapping
+    @PreAuthorize("hasAuthority('SCOPE_blueprints.write')")
     @Operation(summary = "Crear un nuevo blueprint",
         responses = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "201", description = "Creado",
@@ -126,6 +131,7 @@ public class BlueprintsAPIController {
 
     // PUT /blueprints/{author}/{bpname}/points
     @PutMapping("/{author}/{bpname}/points")
+    @PreAuthorize("hasAuthority('SCOPE_blueprints.write')")
     @Operation(summary = "Agregar un punto a un blueprint",
         responses = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "202", description = "Aceptado",
