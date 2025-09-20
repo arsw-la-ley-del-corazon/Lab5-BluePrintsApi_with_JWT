@@ -66,17 +66,28 @@
    En Swagger UI, ejecutamos el endpoint publico POST /auth/login con las credenciales de ejemplo: 
    Username : student 
    Password : student123   
+   
    <img width="1248" height="588" alt="image" src="https://github.com/user-attachments/assets/4682cb76-6861-4bb3-aaee-6169f8c2e658" />
+   
    Esto nos genera un objeto JSON con el token JWT: 
+   
    <img width="1250" height="381" alt="image" src="https://github.com/user-attachments/assets/68b96d75-ca1f-409c-a653-40d5c35c7ef5" />
+   
    Copiamos el valor de access_token en la opción Authorize de Swagger 
+   
    <img width="1252" height="503" alt="image" src="https://github.com/user-attachments/assets/b643b93a-eca6-45ce-88e0-727467f8230c" />
+   
    Una vez logrado, podemos invocar los endpoints protegidos por la API. 
+   
    <img width="1193" height="783" alt="image" src="https://github.com/user-attachments/assets/522b07bd-82ac-41da-8675-819800af1af6" />
+   
 
    Para analizar los claims del JWT emitido, hacemos uso de jwt.io, el cual descodifica el access_token 
    Nos otorga las siguientes claims:
+   
    <img width="968" height="655" alt="image" src="https://github.com/user-attachments/assets/68be2ea4-ea58-43a3-8f11-30f777690e42" />
+   
+   
    - **Iss**: Identifica el emisor del token, en este caso nuestra API https://decsis-eci/blueprints.
    - **Sub**: Identifica el usuario autenticado que solicito el token, en este caso student. 
    - **Exp**: Es el tiempo de expiracion del token, en este caso Thu Sep 18 2025 20:17:07 GMT-0500. 
