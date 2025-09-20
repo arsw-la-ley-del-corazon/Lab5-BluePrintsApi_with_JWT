@@ -35,7 +35,7 @@
 
 2. Ejecutar con Maven:
    ```bash
-   mvn --projects Lab5-BluePrintsApi_with_JWT spring-boot:run
+   mvn spring-boot:run
    ```
 
 3. Verificar que la aplicación levante en `http://localhost:8080`.
@@ -105,6 +105,8 @@
 
    
    4. Modificar el tiempo de expiración del token y observar el efecto.
+
+   **RTA**
    
    En el codigo en el archivo `AuthController.java` se modifico la linea 37 de:
    ```java
@@ -120,6 +122,17 @@
 
 
    5. Documentar en Swagger los endpoints de autenticación y de negocio.
+
+   ![Swagger](/img/Swagger1.png)
+
+   ![Swagger](/img/Swagger2.png)
+
+
+   Se puede evidenciar todo los endpoint documentados con autentificación: 
+   [![Swagger UI](https://img.shields.io/badge/Swagger-UI-green)](http://localhost:8080/swagger-ui/index.html)
+
+   Haz clic en el badge para abrir la documentación.
+
 
 ---
 
