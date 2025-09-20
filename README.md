@@ -48,13 +48,13 @@
 
    <img width="1313" height="395" alt="image" src="https://github.com/user-attachments/assets/99635fac-af66-40f9-9202-7028a4ed73f0" />
 
-   Publico  
+   - **Publico** 
 
    "/actuator/health", "/auth/login", /v3/api-docs/**, "/swagger-ui/**", "/swagger-ui.html". 
    
    La etiqueta `permitAll()` nos permite declarar excepciones de seguridad. 
    
-   Protegido 
+   - **Protegido**
    
    /api/**.hasAnyAuthority("SCOPE_blueprints.read", "SCOPE_blueprints.write"): Esto nos indica que esta /api/** esta protegido y requiere permisos, ya que obliga a que el token JWT contenga al menos una de esas authorites. 
    
